@@ -1,20 +1,23 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, View } from 'react-native';
+import AppNavigation from './navigation';
+
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js Himani!</Text>
-      <StatusBar style="auto" />
+    <View style={styles.mainComponent}>
+      <StatusBar
+        animated={true}
+        barStyle={Platform.OS === 'ios' ? 'light-content' : 'dark-content'}
+        showHideTransition={'slide'}
+      />
+      <AppNavigation />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  mainComponent: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
