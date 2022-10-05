@@ -1,7 +1,8 @@
 import React from 'react';
-import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import screens from '../screens';
+import {View} from 'react-native';
 
 const AppNavigation = () => {
   const Stack = createNativeStackNavigator();
@@ -27,6 +28,20 @@ const AppNavigation = () => {
           headerLeft: null,
         }}>
         <Stack.Screen name="Movies App" component={screens.Base} />
+        <Stack.Screen
+          options={({route}) => ({
+            title: route.params.data.original_title,
+            headerStyle: {
+              backgroundColor: '#dcdcdc',
+              headerTitleStyle: {
+                fontWeight: 'bold',
+              },
+            },
+          })}
+          screenOptions={{headerStyle: {backgroundColor: '#000000'}}}
+          name="Movies Details"
+          component={screens.MovieDetails}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

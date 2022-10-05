@@ -27,16 +27,31 @@ const Movies = () => {
   const [data, setData] = useState([]);
   const [isLoad, setLoad] = useState(true);
 
-  const requestAPI = () => {
-    getMovies({api: value.value.api}).then(async res => {
-      setData(res.results);
-      setLoad(false);
+  const requestAPI = async change => {
+    let pageNo = change ? 1 : page;
+    if (change) {
+      await setData([]);
+      await console.log('data', data);
+    }
+    getMovies({api: value.value.api, pageNo}).then(async res => {
+      if (data?.page !== res?.page) {
+        if (change) {
+          setData(res.results);
+          await setPage(1);
+        } else {
+          await setData([...data, ...res.results]);
+        }
+        // await setData(arr => [...arr, ...res.results]);
+        setLoad(false);
+      } else {
+        setLoad(false);
+      }
     });
   };
 
   useEffect(() => {
     requestAPI();
-  }, [page, value]);
+  }, [page]);
 
   const fetchMoreData = () => {
     setLoad(true);
@@ -111,6 +126,7 @@ const Movies = () => {
         value={value}
         onChange={async item => {
           await setValue(item);
+          requestAPI(true);
         }}
       />
       <FlatList
